@@ -9,23 +9,49 @@
  */
 class Bootstrap extends Yaf\Bootstrap_Abstract{
 
+    private $config;
+
+    public function _initLoader()
+    {
+        //加载vendor下的文件
+        \Yaf\Loader::import(APPLICATION_PATH . '/vendor/autoload.php');
+    }
+
     public function _initConfig() {
-		//把配置保存起来
-		$arrConfig = Yaf\Application::app()->getConfig();
-		Yaf\Registry::set('config', $arrConfig);
-	}
+        //把配置保存起来
+        $this->config = Yaf\Application::app()->getConfig();
+        Yaf\Registry::set('config', $this->config);
+    }
 
-	public function _initPlugin(Yaf\Dispatcher $dispatcher) {
-		//注册一个插件
-		$objSamplePlugin = new SamplePlugin();
-		$dispatcher->registerPlugin($objSamplePlugin);
-	}
+    public function _initPlugin(Yaf\Dispatcher $dispatcher) {
+        //注册一个插件
+        $objSamplePlugin = new SamplePlugin();
+        $dispatcher->registerPlugin($objSamplePlugin);
+    }
 
-	public function _initRoute(Yaf\Dispatcher $dispatcher) {
-		//在这里注册自己的路由协议,默认使用简单路由
-	}
+    public function _initRoute(Yaf\Dispatcher $dispatcher) {
+        //在这里注册自己的路由协议,默认使用简单路由
+    }
 
-	public function _initView(Yaf\Dispatcher $dispatcher){
-		//在这里注册自己的view控制器，例如smarty,firekylin
-	}
+    public function _initView(Yaf\Dispatcher $dispatcher){
+        //在这里注册自己的view控制器，例如smarty,firekylin
+    }
+
+    public function _initRedis(Yaf\Dispatcher $dispatcher)
+    {
+        $redis = new \Predis\Client($this->config->redis->default->toArray());
+        Yaf\Registry::set('redis', $redis);
+    }
+
+    public function _initRequest()
+    {
+        //请求类载入
+        \Yaf\Loader::import('helper/Request.php');
+    }
+
+    public function _initFunction()
+    {
+        //公用函数载入
+        \Yaf\Loader::import('helper/functions.php');
+    }
 }

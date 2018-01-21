@@ -1,2 +1,3 @@
-vender/
 .idea
+vendor/
+composer.lock
