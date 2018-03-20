@@ -1,0 +1,6 @@
+/vendor
+/conf/application.ini
+/composer.lock
+/.idea
+/data
+/backup
