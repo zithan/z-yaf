@@ -57,6 +57,7 @@ class Bootstrap extends Yaf\Bootstrap_Abstract
     }
 
     public function _initUtil(\Yaf\Dispatcher $dispatcher){
-        \Yaf\Loader::import(APPLICATION_PATH . '/commons/Helper/Util.php');
+        //公用函数载入
+        \Yaf\Loader::import('helper/Util.php');
     }
 }

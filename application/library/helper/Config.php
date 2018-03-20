@@ -4,8 +4,7 @@
  * User: zithan <zithan@163.com>
  */
 
-namespace Commons\Helper;
-
+namespace helper;
 
 class Config
 {

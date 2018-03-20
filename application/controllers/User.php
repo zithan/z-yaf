@@ -12,9 +12,6 @@ use Commons\Helper\Str;
 use Commons\Helper\Image;
 use exceptions\FailException;
 use enum\UserStateEnum;
-use Endroid\QrCode\ErrorCorrectionLevel;
-use Endroid\QrCode\LabelAlignment;
-use Endroid\QrCode\QrCode;
 
 class UserController extends BaseController
 {

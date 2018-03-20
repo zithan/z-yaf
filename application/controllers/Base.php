@@ -6,7 +6,6 @@
  */
 
 use Commons\Helper\Filter;
-use Commons\Helper\NetWork;
 use exceptions\FailException;
 use App\Services\UserToken;
 
@@ -20,15 +19,10 @@ class BaseController extends \Yaf\Controller_Abstract
 
         // @todo 待抽离；配置不需要token的路由
         $notNeedToken = [
-            'wechat/getSign',
-            'token/get',
             'captcha/get',
             'sms/getCode',
+            'token/get',
             'user/register',
-            'user/resetPwdBySms',
-            'wechat/get',
-            'user/getinviteqrcode',
-            'user/getAppQrCode'
         ];
         if (in_array($this->getUri(), array_map('strtolower', $notNeedToken))) {
             return;

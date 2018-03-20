@@ -5,10 +5,10 @@
  * User: zithan <zithan@163.com>
  */
 
-use Commons\Helper\Str;
-use Commons\Helper\Cache;
 use Gregwar\Captcha\CaptchaBuilder;
-use Commons\Helper\Config;
+use helper\Config;
+use helper\Cache;
+use helper\Str;
 
 // 图片验证器
 class CaptchaController extends BaseController
@@ -17,13 +17,15 @@ class CaptchaController extends BaseController
     {
         $key = 'captcha_' . Str::getRandChar(18);
 
-        //$params = $this->getPosts();
-        //(new CaptchaValidate())->goCheck($params);
-
         $captcha = (new CaptchaBuilder(4))->build();
-        //图片验证码2分钟过期
-        $expire = 2;
-        Cache::redis()->set($key, ['captcha_code' => $captcha->getPhrase()], $expire);
+
+        $expire =120;
+        //dump(Cache::redis());
+        Cache::redis()->setex(
+            $key,
+            $expire,
+            json_encode(['captcha_code' => $captcha->getPhrase()], JSON_UNESCAPED_UNICODE)
+        );
 
         $result = [
             'captcha_key' => $key,
@@ -32,7 +34,7 @@ class CaptchaController extends BaseController
         ];
 
         // 调试模式下，默认短信验证码返回前端，给予调试使用
-        if (Config::get('debug.app.debug')) {
+        if (Config::get('project.debug')) {
             $result['code'] = $captcha->getPhrase();
         }
 

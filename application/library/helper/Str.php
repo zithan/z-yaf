@@ -4,8 +4,7 @@
  * User: zithan <zithan@163.com>
  */
 
-namespace Commons\Helper;
-
+namespace helper;
 
 class Str
 {
@@ -45,21 +44,5 @@ class Str
                 . substr($charid, 20, 12);
             return $uuid;
         }
-    }
-
-    /**
-     * 密码加密处理
-     * @param  [type] $password [description]
-     * @param  [type] $salt [description]
-     * @return [type] [description]
-     * @author hutong
-     * @date   2018-01-15T13:46:52+080
-     */
-    public static function getPassword($password, $salt)
-    {
-        $configs = \Yaf\Registry::get('config')->toArray();
-        $psalt = isset($configs['project']['salt']) ? $configs['project']['salt']:'';
-
-        return md5($psalt . md5($password) . $salt);
     }
 }

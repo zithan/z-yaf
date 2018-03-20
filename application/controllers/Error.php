@@ -7,7 +7,7 @@
  */
 
 use exceptions\BaseException;
-use Commons\Helper\Config;
+use helper\Config;
 
 class ErrorController extends \Yaf\Controller_Abstract
 {
@@ -24,7 +24,7 @@ class ErrorController extends \Yaf\Controller_Abstract
 
         } else {
             // 如果是服务器未处理的异常，将http状态码设置为500，并记录日志
-            if(Config::get('debug.app.debug')) {
+            if(Config::get('project.debug')) {
                 // 很容易看出问题
                 dump($exception->getMessage());
             }

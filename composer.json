@@ -17,18 +17,17 @@
     },
     "autoload": {
         "psr-4": {
-            "Commons\\": "commons/",
             "App\\Validates\\": "application/validates",
             "App\\Services\\": "application/services"
         }
     },
     "require": {
         "php": ">=7.0.0",
-        "aliyuncs/oss-sdk-php": "dev-master",
         "topthink/think-validate": "1.0.1",
+        "topthink/think-orm": "1.2.4",
         "endroid/qr-code": "^3.0@dev",
         "gregwar/captcha": "1.*",
-        "topthink/think-orm": "1.2.4"
+        "predis/predis": "^2.0@dev"
     },
     "minimum-stability": "dev"
 }
