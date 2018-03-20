@@ -6,11 +6,11 @@
  */
 
 use App\Validates\Sms as SmsValidate;
-use Commons\Helper\Config;
-use Commons\Helper\Cache;
-use Commons\Helper\Str;
+use helper\Config;
+use helper\Cache;
+use helper\Str;
 use exceptions\FailException;
-use Commons\Tool\Ons;
+use Overtrue\EasySms\EasySms;
 
 class SmsController extends BaseController
 {
@@ -31,17 +31,51 @@ class SmsController extends BaseController
             throw new FailException(['msg' => '图片验证码错误']);
         }
 
-        $username = $params['username'];
-
         $code = str_pad(rand(1, 999999), 6, 0, STR_PAD_LEFT);
-        // 短信验证码发送交给阿里云队列
-        $message = Ons::sendVerificationCode($username, $code);
-        $this->addProducer($message);
+        // 短信验证码发送
+        $config = [
+            // HTTP 请求的超时时间（秒）
+            'timeout' => 5.0,
+
+            // 默认发送配置
+            'default' => [
+                // 网关调用策略，默认：顺序调用
+                'strategy' => \Overtrue\EasySms\Strategies\OrderStrategy::class,
+
+                // 默认可用的发送网关
+                'gateways' => [
+                    'yunpian',
+                ],
+            ],
+            // 可用的网关配置
+            'gateways' => [
+                'errorlog' => [
+                    'file' => '/tmp/easy-sms.log',
+                ],
+                'yunpian' => [
+                    'api_key' => '824f0ff2f71cab52936axxxxxxxxxx',
+                ],
+            ],
+        ];
+
+        $easySms = new EasySms($config);
+
+        $easySms->send(13188888888, [
+            'content'  => '您的验证码为: 6379',
+            'template' => 'SMS_001',
+            'data' => [
+                'code' => 6379
+            ],
+        ]);
+
 
         $key = 'smsCode_' . Str::getRandChar(18);
-        // 短信验证码10分钟过期
-        $expire = 10;
-        Cache::redis()->set($key, ['username' => $username, 'sms_code' => $code], $expire);
+        $expire = 600;
+        Cache::redis()->setex(
+            $key,
+            $expire,
+            json_encode(['username' => $params['username'], 'sms_code' => $code], JSON_UNESCAPED_UNICODE)
+        );
         // 清除图片验证码的缓存
         Cache::redis()->del($captchaKey);
 

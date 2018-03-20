@@ -27,7 +27,8 @@
         "topthink/think-orm": "1.2.4",
         "endroid/qr-code": "^3.0@dev",
         "gregwar/captcha": "1.*",
-        "predis/predis": "^2.0@dev"
+        "predis/predis": "^2.0@dev",
+        "overtrue/easy-sms": "dev-master"
     },
     "minimum-stability": "dev"
 }
