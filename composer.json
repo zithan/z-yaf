@@ -30,5 +30,8 @@
         "predis/predis": "^2.0@dev",
         "overtrue/easy-sms": "dev-master"
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "require-dev": {
+        "fzaninotto/faker": "^1.8@dev"
+    }
 }

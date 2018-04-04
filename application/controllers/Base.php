@@ -19,6 +19,7 @@ class BaseController extends \Yaf\Controller_Abstract
 
         // @todo 待抽离；配置不需要token的路由
         $notNeedToken = [
+            'zithan/index',
             'captcha/get',
             'sms/getCode',
             'token/get',
